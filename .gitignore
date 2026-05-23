@@ -3,6 +3,14 @@
 .DS_Store
 *.log
 __pycache__/
+*.py[cod]
+.venv/
+venv/
 node_modules/
 .claude/settings.local.json
 audits/
+memory/chroma/
+.pytest_cache/
+dist/
+build/
+*.egg-info/

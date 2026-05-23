@@ -85,7 +85,57 @@ The kit is intentionally lean. Skills here are ideation prompts and thinking too
 
 ---
 
-## Quick start
+## Terminal runtime (v0.1 — Phase 1)
+
+This repo now includes a **terminal-first Python runtime** that extends the kit — it does not replace Claude Code skills. The runtime orchestrates agents, OpenRouter models, ChromaDB memory, and Rich UI from your shell.
+
+### Install (Windows)
+
+```powershell
+cd "AI OS"
+.\scripts\setup.ps1
+# Edit .env — set OPENROUTER_API_KEY
+.\.venv\Scripts\Activate.ps1
+ais
+```
+
+### Install (macOS / Linux)
+
+```bash
+chmod +x scripts/setup.sh && ./scripts/setup.sh
+source .venv/bin/activate
+cp .env.example .env   # if not created
+ais
+```
+
+### Docker
+
+```bash
+cp .env.example .env   # add OPENROUTER_API_KEY
+docker compose run --rm ais-os
+```
+
+### Terminal commands
+
+| Command | Description |
+|---------|-------------|
+| `/chat <msg>` | Conversational assistant (default) |
+| `/agents` | List all agents |
+| `/memory <query>` | Search vector memory |
+| `/memory save <text>` | Store long-term memory |
+| `/code`, `/research`, `/outreach`, `/deploy`, `/browser` | Route to specialist agent |
+| `/settings` | Show config |
+| `/voice` | Phase 2 — Jarvis voice mode |
+| `/help` | Command list |
+| `@coding_agent <task>` | Force a specific agent |
+
+CLI one-shots: `ais chat "summarize my priorities"`, `ais agents`, `ais memory "Q2 goals"`.
+
+See [ARCHITECTURE.md](ARCHITECTURE.md) for how the Four Cs map to folders and phases.
+
+---
+
+## Quick start (Claude Code kit)
 
 1. **Clone the repo** to a working folder on your machine.
 2. **Open it in Claude Code** and run `/onboard`. Answer the 7 questions honestly. Voice samples must be pasted, not described. Takes ~15 minutes. Day-1 file set drops at the end.
@@ -101,6 +151,16 @@ The kit is intentionally lean. Skills here are ideation prompts and thinking too
 ```
 AIS-OS/
 ├── README.md
+├── ARCHITECTURE.md                  ← Terminal runtime + Four Cs mapping
+├── ais_os/                          ← Python terminal runtime (Phase 1+)
+├── configs/default.yaml             ← Models, memory, agents, permissions
+├── agents/ (via ais_os/agents/)     ← 9 modular agents + LangGraph orchestrator
+├── memory/notes, memory/chroma      ← Long-term memory
+├── sessions/, logs/
+├── voice/, workflows/, integrations/  ← Phases 2–4
+├── scripts/setup.ps1, setup.sh
+├── Dockerfile, docker-compose.yml
+├── requirements.txt, .env.example
 ├── CLAUDE.md                        ← Your operating manual (filled by /onboard)
 ├── EXPANSIONS.md                    ← What to add as you grow
 ├── LICENSE
