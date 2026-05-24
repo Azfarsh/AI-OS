@@ -1,0 +1,18 @@
+# Agency OS — lead qualification & pipeline (extends default + free-test)
+
+agency:
+  name: Agency OS
+  qualification_threshold: 70
+  # Combined gate: (fit_score + intent_score) / 2 >= threshold
+
+lead_pipeline:
+  memory_dir: memory/leads
+  prompt_file: prompts/lead_scoring.md
+  on_qualified:
+    - write_lead_memory
+    - update_active_pipeline
+  # Phase 1 integrations (set enabled + API keys in .env when ready)
+  integrations:
+    freshsales: { enabled: false }
+    instantly: { enabled: false }
+    apollo: { enabled: false }

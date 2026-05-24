@@ -77,8 +77,11 @@ class CommandRouter:
     async def _settings(self, _arg: str, ctx: CommandContext) -> str | None:
         cfg = get_config()
         text = (
+            f"Profile: {cfg.config_profile}\n"
+            f"Free models: {cfg.use_free_models}\n"
             f"Workspace: {cfg.workspace}\n"
             f"Default model: {cfg.default_model}\n"
+            f"Embeddings: {cfg.embed_provider}\n"
             f"OpenRouter key: {'set' if cfg.openrouter_api_key else 'MISSING'}\n"
             f"Session: {ctx.session_id}\n"
             f"Chroma vectors: {ctx.memory.vectors.count()}\n"

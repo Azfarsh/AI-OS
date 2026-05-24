@@ -1,0 +1,47 @@
+# Free-tier test profile — OpenRouter $0 models only (no paid embeddings)
+# Enable: AIS_USE_FREE_MODELS=true in .env (default for local testing)
+
+app:
+  profile: free-test
+
+models:
+  default: openrouter/free
+  routing:
+    # openrouter/free auto-picks an available free model (best for testing; avoids 429 on one provider)
+    chat: openrouter/free
+    code: openrouter/free
+    research: openrouter/free
+    planning: openrouter/free
+    fast: openrouter/free
+    local: ollama/llama3.2
+  available:
+    - id: openrouter/free
+      label: OpenRouter Free Router (auto-picks free model)
+    - id: qwen/qwen3-coder:free
+      label: Qwen3 Coder (free, tools)
+    - id: deepseek/deepseek-v4-flash:free
+      label: DeepSeek V4 Flash (free, tools)
+    - id: meta-llama/llama-3.3-70b-instruct:free
+      label: Llama 3.3 70B (free)
+    - id: google/gemma-4-27b-it:free
+      label: Gemma 4 27B (free)
+    - id: openai/gpt-oss-20b:free
+      label: GPT-OSS 20B (free)
+
+memory:
+  embed_provider: local
+  embed_model: local/hash
+  agency_dirs:
+    - leads
+    - clients
+    - campaigns
+    - reports
+    - transcripts
+    - context
+
+agents:
+  permissions:
+    terminal: true
+    filesystem: true
+    browser: false
+    email: false

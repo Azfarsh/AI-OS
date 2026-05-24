@@ -39,12 +39,17 @@ class MemoryManager:
         parts: list[str] = []
         for path, content in self.markdown.load_context_files():
             parts.append(f"### {path}\n{content.strip()}")
-        notes = self.markdown.list_notes()[:5]
+        notes = self.markdown.list_notes()[:12]
+        mem_root = self.markdown.notes_dir.parent
         for note in notes:
             try:
-                body = self.markdown.read_note(note)
-                parts.append(f"### memory/notes/{note}\n{body.strip()[:2000]}")
-            except OSError:
+                path = mem_root / note
+                if path.is_file():
+                    body = path.read_text(encoding="utf-8")
+                else:
+                    body = self.markdown.read_note(note)
+                parts.append(f"### memory/{note}\n{body.strip()[:2000]}")
+            except (OSError, FileNotFoundError, ValueError):
                 continue
         return "\n\n".join(parts) if parts else "(No context files yet — run /onboard in Claude Code or fill context/)"
 

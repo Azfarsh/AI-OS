@@ -1,0 +1,25 @@
+[
+  {
+    "name": "Jane Smith",
+    "email": "jane@acme-saas-demo.com",
+    "company": "Acme SaaS Demo",
+    "role": "Head of Growth",
+    "linkedin": "https://linkedin.com/in/janesmith",
+    "source": "test-fixture",
+    "industry": "B2B SaaS",
+    "company_size": "50-200",
+    "tech_stack": "HubSpot, Slack",
+    "revenue_signals": "Series A, hiring marketing roles",
+    "notes": "Posted about scaling paid ads on LinkedIn last week"
+  },
+  {
+    "name": "Bob Retail",
+    "email": "bob@small-shop-local.com",
+    "company": "Bobs Corner Shop",
+    "role": "Owner",
+    "source": "test-fixture",
+    "industry": "Retail local",
+    "company_size": "1-5",
+    "notes": "No paid ads budget, local foot traffic only"
+  }
+]

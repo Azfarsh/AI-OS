@@ -16,12 +16,44 @@ def _repo_root() -> Path:
     return Path(__file__).resolve().parent.parent
 
 
+def _deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
+    out = dict(base)
+    for key, val in override.items():
+        if key in out and isinstance(out[key], dict) and isinstance(val, dict):
+            out[key] = _deep_merge(out[key], val)
+        else:
+            out[key] = val
+    return out
+
+
 def load_yaml_config(path: Path | None = None) -> dict[str, Any]:
-    cfg_path = path or _repo_root() / "configs" / "default.yaml"
-    if not cfg_path.exists():
-        return {}
-    with cfg_path.open(encoding="utf-8") as f:
-        return yaml.safe_load(f) or {}
+    root = _repo_root()
+    default_path = root / "configs" / "default.yaml"
+    cfg: dict[str, Any] = {}
+    if default_path.exists():
+        with default_path.open(encoding="utf-8") as f:
+            cfg = yaml.safe_load(f) or {}
+
+    if path:
+        overlay_path = path
+    elif os.getenv("AIS_CONFIG"):
+        overlay_path = Path(os.getenv("AIS_CONFIG", ""))
+    elif os.getenv("AIS_USE_FREE_MODELS", "true").lower() in ("1", "true", "yes"):
+        overlay_path = root / "configs" / "free-test.yaml"
+    else:
+        overlay_path = None
+
+    if overlay_path and overlay_path.exists():
+        with overlay_path.open(encoding="utf-8") as f:
+            overlay = yaml.safe_load(f) or {}
+        cfg = _deep_merge(cfg, overlay)
+
+    agency_path = root / "configs" / "agency.yaml"
+    if agency_path.exists():
+        with agency_path.open(encoding="utf-8") as f:
+            agency = yaml.safe_load(f) or {}
+        cfg = _deep_merge(cfg, agency)
+    return cfg
 
 
 class EnvSettings(BaseSettings):
@@ -37,9 +69,10 @@ class EnvSettings(BaseSettings):
         alias="OPENROUTER_BASE_URL",
     )
     ais_default_model: str = Field(
-        default="anthropic/claude-3.5-sonnet",
+        default="openrouter/free",
         alias="AIS_DEFAULT_MODEL",
     )
+    ais_use_free_models: str = Field(default="true", alias="AIS_USE_FREE_MODELS")
     ollama_base_url: str = Field(
         default="http://localhost:11434/v1",
         alias="OLLAMA_BASE_URL",
@@ -129,6 +162,22 @@ class AppConfig:
     @property
     def memory_settings(self) -> dict[str, Any]:
         return dict(self._yaml.get("memory", {}))
+
+    @property
+    def use_free_models(self) -> bool:
+        return os.getenv("AIS_USE_FREE_MODELS", self.env.ais_use_free_models).lower() in (
+            "1",
+            "true",
+            "yes",
+        )
+
+    @property
+    def config_profile(self) -> str:
+        return str(self._yaml.get("app", {}).get("profile", "default"))
+
+    @property
+    def embed_provider(self) -> str:
+        return str(self.memory_settings.get("embed_provider", "openrouter"))
 
     @property
     def max_agent_retries(self) -> int:

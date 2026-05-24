@@ -30,12 +30,15 @@ class VectorMemoryStore:
             name=self.COLLECTION,
             metadata={"hnsw:space": "cosine"},
         )
+        self._embed_provider = cfg.embed_provider
         self._embed_model = cfg.memory_settings.get(
             "embed_model", "openai/text-embedding-3-small"
         )
         self._llm = OpenRouterClient()
 
     async def _embed(self, texts: list[str]) -> list[list[float]]:
+        if self._embed_provider in ("local", "hash"):
+            return [_hash_embed(t) for t in texts]
         try:
             return await self._llm.embed(texts, model=self._embed_model)
         except Exception as exc:

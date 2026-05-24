@@ -4,6 +4,35 @@ Share this list with your client. Mark what they need **now** vs **later** based
 
 ---
 
+## Free testing mode (recommended to start — $0 models)
+
+The project ships with **`AIS_USE_FREE_MODELS=true`** (see `.env`). You only need:
+
+| Credential | Cost | Notes |
+|------------|------|--------|
+| **OpenRouter API key** | **$0** for chat | Uses models ending in `:free` and `openrouter/free` router — no paid credits required for free models |
+
+**No paid embedding API** — memory vectors use local hashing in free mode (`embed_provider: local`).
+
+**Free OpenRouter models used by default:**
+
+| Task | Model ID |
+|------|----------|
+| General chat | `openrouter/free` |
+| Code / tools | `qwen/qwen3-coder:free` |
+| Research / planning | `deepseek/deepseek-v4-flash:free` |
+| Fast replies | `google/gemma-4-27b-it:free` |
+
+Override: `/model qwen/qwen3-coder:free` in the REPL.
+
+Verify: `.\scripts\test-free-models.ps1` after setting `OPENROUTER_API_KEY`.
+
+Agency memory layout (from architecture doc): `memory/leads/`, `clients/`, `campaigns/`, `reports/`, `transcripts/`, `context/`.
+
+To use **paid** models later: set `AIS_USE_FREE_MODELS=false` in `.env`.
+
+---
+
 ## Required to run Phase 1 (terminal chat + agents + memory)
 
 | Credential | Where to get it | Used for | Env variable |

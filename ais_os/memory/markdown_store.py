@@ -17,20 +17,24 @@ class MarkdownMemoryStore:
         cfg = get_config()
         self.notes_dir = notes_dir or cfg.markdown_memory_dir
         self.notes_dir.mkdir(parents=True, exist_ok=True)
+        self.memory_root = self.notes_dir.parent
         self.workspace = cfg.workspace
 
     def _safe_path(self, relative: str) -> Path:
-        base = self.notes_dir.resolve()
-        target = (self.notes_dir / relative).resolve()
+        base = self.memory_root.resolve()
+        target = (base / relative).resolve()
         if not str(target).startswith(str(base)):
-            raise ValueError("Path escapes memory notes directory")
+            raise ValueError("Path escapes memory directory")
         return target
 
     def list_notes(self) -> list[str]:
+        root = self.notes_dir.parent if self.notes_dir.name == "notes" else self.notes_dir
+        if not root.exists():
+            root = self.notes_dir
         return sorted(
-            str(p.relative_to(self.notes_dir))
-            for p in self.notes_dir.rglob("*.md")
-            if p.is_file()
+            str(p.relative_to(root))
+            for p in root.rglob("*.md")
+            if p.is_file() and "chroma" not in p.parts
         )
 
     def read_note(self, name: str) -> str:
