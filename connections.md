@@ -1,17 +1,20 @@
 # Connections
 
-Registry of every system your AIOS can reach. Filled by `/onboard` from Q4-Q7 answers; expanded over time as you wire new tools. `/audit` checks this file for domain coverage and freshness.
+Registry of every external system Agency OS can reach. **Stable id** in the Id column is what skills use in "Connections required". Mechanism `not connected` means skills skip or halt that step per `references/connections-guide.md`.
 
-| # | Domain | Tool | Mechanism | Auth | Last checked |
-|---|---|---|---|---|---|
-| 1 | Revenue / Financials | _filled by /onboard_ | not yet connected | — | — |
-| 2 | Customer interactions | _filled by /onboard_ | not yet connected | — | — |
-| 3 | Calendar | _filled by /onboard_ | not yet connected | — | — |
-| 4 | Communication | _filled by /onboard_ | not yet connected | — | — |
-| 5 | Project / task tracking | _filled by /onboard_ | not yet connected | — | — |
-| 6 | Meeting intelligence | _filled by /onboard_ | not yet connected | — | — |
-| 7 | Knowledge / files | _filled by /onboard_ | not yet connected | — | — |
+| # | Id | Domain | Tool | Mechanism | Auth | Last checked |
+|---|-----|--------|------|-----------|------|--------------|
+| 1 | clickup | Project management | ClickUp | not connected | `CLICKUP_API_TOKEN`, `CLICKUP_TEAM_ID`, `CLICKUP_SPACE_ID` | — |
+| 2 | google-drive | File storage | Google Drive | not connected | `GOOGLE_SERVICE_ACCOUNT_JSON_PATH`, `GOOGLE_DRIVE_ROOT_FOLDER_ID` | — |
+| 3 | docuseal | Contract signing | DocuSeal | not connected | `DOCUSEAL_API_TOKEN`, `DOCUSEAL_TEMPLATE_ID` | — |
+| 4 | meta-ads | Paid social | Meta Ads | not connected | `META_ACCESS_TOKEN`, `META_APP_ID`, `META_APP_SECRET` | — |
+| 5 | google-ads | Search ads | Google Ads | not connected | `GOOGLE_ADS_*` in `.env` | — |
+| 6 | smtp | Communication | SMTP | not connected | `SMTP_*`, `EMAIL_FROM` | — |
 
-**Mechanism options:** `mcp` (MCP server), `script` (Python/Bash hitting an API, in `scripts/`), `export` (CSV/JSON dump pipeline), `key+ref` (`.env` key + `references/{tool}-api.md` guide), `not yet connected`.
+**Mechanism values:** `script` (Python in `scripts/`), `mcp`, `export`, `not connected`.
 
-When you wire a new tool, also save `references/{tool}-api.md` capturing endpoints, auth flow, and common queries — researched-once-saved-forever.
+When wiring a tool: set Mechanism to `script`, fill Last checked (YYYY-MM-DD), ensure `references/{tool}-api.md` exists, copy `.env.example` keys into `.env`.
+
+**Remove a service:** set Mechanism to `not connected` only — do not delete API reference files; move to `archives/references/` if deprecated.
+
+See `references/connections-guide.md` for add/remove checklist.

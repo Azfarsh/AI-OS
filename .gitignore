@@ -9,8 +9,17 @@ venv/
 node_modules/
 .claude/settings.local.json
 audits/
-memory/chroma/
 .pytest_cache/
 dist/
 build/
 *.egg-info/
+
+# Google Ads local config (generated from .env)
+scripts/.google-ads.yaml
+
+# Client temp pulls (should be deleted by /report)
+clients/**/reports/.tmp-*.json
+
+# Service account keys — never commit
+*-service-account.json
+credentials/
