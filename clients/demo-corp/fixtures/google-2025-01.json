@@ -1,0 +1,26 @@
+{
+  "platform": "google",
+  "period": "2025-01",
+  "rows": [
+    {
+      "campaign": "Brand - Search",
+      "impressions": 45200,
+      "clicks": 2100,
+      "ctr": 0.0465,
+      "average_cpc": 2.15,
+      "cost_micros": 4515000000,
+      "conversions": 94,
+      "conversions_value": 18800
+    },
+    {
+      "campaign": "Non-brand - Lead Gen",
+      "impressions": 128000,
+      "clicks": 3200,
+      "ctr": 0.025,
+      "average_cpc": 1.82,
+      "cost_micros": 5824000000,
+      "conversions": 112,
+      "conversions_value": 22400
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "platform": "meta",
+  "period": "2025-01",
+  "rows": [
+    {
+      "spend": "4820.50",
+      "impressions": "312400",
+      "clicks": "4890",
+      "ctr": "1.57",
+      "cpc": "0.99",
+      "actions": [{"action_type": "lead", "value": "186"}],
+      "purchase_roas": "2.4"
+    }
+  ]
+}

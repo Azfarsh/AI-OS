@@ -1,0 +1,37 @@
+---
+description: Agency OS — run skills from .claude/skills when user tests workflows or mentions onboard, report, proposal, audit
+globs:
+  - "**/*"
+alwaysApply: false
+---
+
+# Agency OS in Cursor
+
+This repo is a **CLI + Markdown Agency OS**. There is no `ais_os` app server.
+
+## When the user tests workflows
+
+1. Read the matching skill: `.claude/skills/{name}/SKILL.md`
+2. Read `CLAUDE.md`, relevant `context/`, and `connections.md` first
+3. If the user says **DRY RUN**: do not run `scripts/*.py` that need API keys; do not send email
+4. Append outcomes to `decisions/log.md` when the skill specifies logging
+
+## Skill map
+
+| User says | Skill file |
+|-----------|------------|
+| agency audit, Four Cs agency | `.claude/skills/agency-audit/SKILL.md` |
+| audit my AIOS (personal) | `.claude/skills/audit/SKILL.md` |
+| onboard, set me up | `.claude/skills/onboard/SKILL.md` |
+| onboard client, new client | `.claude/skills/onboard-client/SKILL.md` |
+| report, performance report | `.claude/skills/report/SKILL.md` |
+| proposal | `.claude/skills/proposal/SKILL.md` |
+| level up, automate | `.claude/skills/level-up/SKILL.md` |
+
+## Demo data
+
+Dry-run client: `clients/demo-corp/` (brief, notes, fixtures JSON). See `TESTING_IN_CURSOR.md`.
+
+## Connections
+
+Check `connections.md` before any external step. If `not connected`, skip or halt per `references/connections-guide.md`.
