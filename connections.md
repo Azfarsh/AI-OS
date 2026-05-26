@@ -13,7 +13,7 @@ Registry of every external system Agency OS can reach. **Stable id** in the Id c
 
 **Mechanism values:** `script` (Python in `scripts/`), `mcp`, `export`, `not connected`.
 
-When wiring a tool: set Mechanism to `script`, fill Last checked (YYYY-MM-DD), ensure `references/{tool}-api.md` exists, copy `.env.example` keys into `.env`.
+When wiring a tool: set Mechanism to `script`, fill Last checked (YYYY-MM-DD), ensure `references/{tool}-api.md` exists, copy `.env.example` keys into `.env`. Full key guide: `references/env-api-keys.md`. Claude Code: `ANTHROPIC_API_KEY` — see `references/claude-code-api.md`.
 
 **Remove a service:** set Mechanism to `not connected` only — do not delete API reference files; move to `archives/references/` if deprecated.
 

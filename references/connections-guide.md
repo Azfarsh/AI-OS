@@ -5,7 +5,7 @@
 ## Add a new service
 
 1. Add a row to `connections.md` with a stable **id** (e.g. `hubspot`).
-2. Add env keys to `.env.example` and your local `.env`.
+2. Add env keys to `.env.example` and your local `.env` (document in `references/env-api-keys.md`).
 3. Create `references/{tool}-api.md` (researched once).
 4. Add `scripts/{tool}_{action}.py` — CLI args only, uses `scripts/_common.py`.
 5. Update agency skills that should call it (**Connections required** + conditional steps).

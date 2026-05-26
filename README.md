@@ -10,7 +10,7 @@ CLI-only AI Operating System for a digital marketing agency. Built on [AIS-OS](h
 ## Quick start
 
 1. Open this folder in **Cursor** (or Claude Code).
-2. Copy `.env.example` → `.env` when you wire APIs (not needed for dry runs).
+2. Copy `.env.example` → `.env` when you wire APIs (not needed for dry runs). Key reference: `references/env-api-keys.md`.
 3. `python scripts/validate_repo.py` — confirm structure.
 4. Follow **`TESTING_IN_CURSOR.md`** — copy-paste prompts to run every workflow without Claude Code.
 5. Read **`AGENCY_OS_KICKSTART.md`** — full build contract.

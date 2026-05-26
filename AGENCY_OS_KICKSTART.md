@@ -123,8 +123,13 @@ Before marking any skill "done", score it against the Four Cs (Nate Herk's frame
 Create `.env.example` with these keys (no values). The developer fills `.env` before first run.
 
 ```
+# Claude Code (Anthropic API)
+ANTHROPIC_API_KEY=
+
 # ClickUp
 CLICKUP_API_TOKEN=
+CLICKUP_TEAM_ID=
+CLICKUP_SPACE_ID=
 
 # Google Drive / Gmail (Service Account or OAuth)
 GOOGLE_SERVICE_ACCOUNT_JSON_PATH=
