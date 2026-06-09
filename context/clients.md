@@ -1,9 +1,11 @@
-# Client registry
+# Client Registry — Bombay Media
 
-Append-only. Updated by `/onboard-client` and `/proposal`. Do not delete rows — mark `archived` and move folder to `archives/clients/`.
+> Append-only. Never delete rows. Use status: `active`, `prospect`, `paused`, `churned`.
 
-| Date | Client name | Slug | Services | Budget | Status |
-|------|-------------|------|----------|--------|--------|
-| 2025-01-15 | Demo Corp | demo-corp | meta,google | $8,000 | active |
+| Date Added | Client Name | Slug | Services | Monthly Budget | Status |
+|---|---|---|---|---|---|
+| — | — | — | — | — | — |
 
-**Status values:** `prospect`, `active`, `paused`, `archived`
+<!-- Example row (remove when first real client added):
+| 2025-06-01 | Acme Coaching | acme-coaching | meta,google | $5,000 | active |
+-->
