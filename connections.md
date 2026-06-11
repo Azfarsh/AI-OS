@@ -15,7 +15,11 @@
 
 ---
 
+<<<<<<< Updated upstream
 ## Setup Guide (Demo — All Free)
+=======
+When wiring a tool: set Mechanism to `script`, fill Last checked (YYYY-MM-DD), ensure `references/{tool}-api.md` exists, copy `.env.example` keys into `.env`. Full key guide: `references/env-api-keys.md`. Claude Code LLM auth: OpenRouter (`ANTHROPIC_AUTH_TOKEN` + `ANTHROPIC_BASE_URL`) or direct Anthropic (`ANTHROPIC_API_KEY`) — see `references/claude-code-api.md`.
+>>>>>>> Stashed changes
 
 ### 1. Contract Generator
 ```

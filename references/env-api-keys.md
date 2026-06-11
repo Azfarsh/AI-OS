@@ -11,7 +11,7 @@ cp .env.example .env
 - Never commit `.env`, service-account JSON, or real tokens.
 - Check `connections.md` before running skills that call external APIs.
 - Python scripts load `.env` via `scripts/_common.py` (`python-dotenv`).
-- **Claude Code** also reads project `.env` for `ANTHROPIC_API_KEY` when you run skills in the CLI.
+- **Claude Code** reads project `.env` and `.claude/settings.local.json` for LLM auth when you run skills in the CLI.
 
 ---
 
@@ -19,7 +19,10 @@ cp .env.example .env
 
 | Variable | Service | Used by |
 |----------|---------|---------|
-| `ANTHROPIC_API_KEY` | Claude / Anthropic API | Claude Code CLI (`/skills`) |
+| `ANTHROPIC_API_KEY` | Claude / Anthropic API (direct) | Claude Code CLI (`/skills`) |
+| `OPENROUTER_API_KEY` | OpenRouter | Same — copy to `ANTHROPIC_AUTH_TOKEN` |
+| `ANTHROPIC_BASE_URL` | OpenRouter endpoint | `https://openrouter.ai/api` when using OpenRouter |
+| `ANTHROPIC_AUTH_TOKEN` | OpenRouter bearer | Claude Code when `ANTHROPIC_BASE_URL` is set |
 | `CLICKUP_API_TOKEN` | ClickUp | `scripts/clickup_create_project.py`, `/onboard-client` |
 | `CLICKUP_TEAM_ID` | ClickUp | Same |
 | `CLICKUP_SPACE_ID` | ClickUp | Same |
@@ -48,27 +51,46 @@ Per-integration API notes: `references/{tool}-api.md`.
 
 ---
 
-## Claude Code (Anthropic API)
+## Claude Code (LLM auth)
+
+Pick **one** mode. Detail: `references/claude-code-api.md`.
+
+### OpenRouter (key starts with `sk-or-v1-`)
 
 | Variable | Required | Purpose |
 |----------|----------|---------|
-| `ANTHROPIC_API_KEY` | For API billing | Authenticates Claude Code against the [Anthropic Console](https://console.anthropic.com/) API. Sent as the `X-Api-Key` header. |
+| `ANTHROPIC_BASE_URL` | Yes | `https://openrouter.ai/api` |
+| `ANTHROPIC_AUTH_TOKEN` | Yes | Your OpenRouter API key |
+| `ANTHROPIC_API_KEY` | Yes (empty) | Must be `""` — not unset — so Claude Code does not use Anthropic login |
+| `OPENROUTER_API_KEY` | Optional | Same key, for documentation in `.env` |
+
+Also add the same three vars to **`.claude/settings.local.json`** (gitignored) under `"env"`.
+
+**Get a key:** [openrouter.ai](https://openrouter.ai) → Settings → API Keys.
+
+**Verify:** `/status` in Claude Code — base URL `https://openrouter.ai/api`, token via `ANTHROPIC_AUTH_TOKEN`.
+
+### Direct Anthropic (key starts with `sk-ant-`)
+
+| Variable | Required | Purpose |
+|----------|----------|---------|
+| `ANTHROPIC_API_KEY` | For API billing | Anthropic Console key; sent as `X-Api-Key`. |
 
 **When to set it**
 
-- You want Claude Code to bill **pay-as-you-go API usage** instead of (or in addition to) a Claude Pro/Team subscription.
-- You run Agency OS skills (`/onboard-client`, `/report`, etc.) inside **Claude Code** and need a stable API identity.
+- Pay-as-you-go Anthropic API instead of (or in addition to) Claude Pro/Team subscription.
+- You run Agency OS skills inside **Claude Code** with a direct Anthropic key.
 
 **When to leave it empty**
 
-- You only use **Cursor** for dry runs (see `TESTING_IN_CURSOR.md`) and do not run Claude Code in this repo.
-- You prefer `/login` subscription auth in Claude Code — unset the key to avoid API charges overriding subscription usage.
+- You only use **Cursor** for dry runs (`TESTING_IN_CURSOR.md`) and do not run Claude Code here.
+- You prefer `/login` subscription auth — unset keys so API billing does not override subscription.
 
-**Get a key:** [console.anthropic.com](https://console.anthropic.com/) → API keys → create key → paste into `.env`.
+**Get a key:** [console.anthropic.com](https://console.anthropic.com/) → API keys.
 
-**Verify in Claude Code:** run `/status` to see whether subscription or API key auth is active.
+**Verify:** `/status` in Claude Code.
 
-**Optional (advanced):** `ANTHROPIC_AUTH_TOKEN` — Bearer token for LLM gateways; not in `.env.example` unless you use a proxy. See [Claude Code env vars](https://code.claude.com/docs/en/env-vars).
+See [Claude Code env vars](https://code.claude.com/docs/en/env-vars).
 
 ---
 
