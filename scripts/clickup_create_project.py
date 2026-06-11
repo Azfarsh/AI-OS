@@ -22,7 +22,8 @@ except ImportError:
     print("ERROR: Missing packages. Run: pip install requests python-dotenv")
     sys.exit(1)
 
-load_dotenv()
+REPO_ROOT = Path(__file__).resolve().parent.parent
+load_dotenv(REPO_ROOT / ".env")
 
 CLICKUP_API_TOKEN = os.getenv("CLICKUP_API_TOKEN")
 CLICKUP_SPACE_ID  = os.getenv("CLICKUP_SPACE_ID")
@@ -65,8 +66,24 @@ STRATEGY_TASKS = [
 ]
 
 
+def find_folder(space_id: str, client_name: str) -> str | None:
+    """Return existing folder ID if the client folder already exists."""
+    url = f"{BASE_URL}/space/{space_id}/folder"
+    r = requests.get(url, headers=HEADERS)
+    r.raise_for_status()
+    for folder in r.json().get("folders", []):
+        if folder.get("name") == client_name:
+            return folder["id"]
+    return None
+
+
 def create_folder(space_id: str, client_name: str) -> str:
     """Create a folder (project) for the client inside the space."""
+    existing = find_folder(space_id, client_name)
+    if existing:
+        print(f"✓ ClickUp folder already exists: {client_name} (ID: {existing})")
+        return existing
+
     url = f"{BASE_URL}/space/{space_id}/folder"
     payload = {"name": client_name}
     r = requests.post(url, headers=HEADERS, json=payload)

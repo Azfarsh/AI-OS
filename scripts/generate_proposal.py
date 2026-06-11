@@ -423,8 +423,9 @@ def main():
     prs.slide_width  = Inches(10)
     prs.slide_height = Inches(5.625)
 
-    date_str = datetime.today().strftime("%-d %B %Y")
-    date_tag = datetime.today().strftime("%Y-%m-%d")
+    today = datetime.today()
+    date_str = f"{today.day} {today.strftime('%B %Y')}"
+    date_tag = today.strftime("%Y-%m-%d")
 
     build_slide1_cover(prs, args.client_name, args.company, date_str, args.budget)
     build_slide2_proof(prs, args.company, args.pain_points)

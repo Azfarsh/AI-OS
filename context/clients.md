@@ -4,8 +4,6 @@
 
 | Date Added | Client Name | Slug | Services | Monthly Budget | Status |
 |---|---|---|---|---|---|
-| — | — | — | — | — | — |
-
-<!-- Example row (remove when first real client added):
-| 2025-06-01 | Acme Coaching | acme-coaching | meta,google | $5,000 | active |
--->
+| 2026-06-12 | Workflow Test Co | workflow-test-co | meta,content | $5,000 | active |
+| 2026-06-12 | Demo Corp | demo-corp | meta,google,content | $8,000 | prospect |
+| 2026-06-12 | Xenvo | xenvo | meta,content | $5,000 | active |

@@ -29,7 +29,8 @@ except ImportError:
     print("ERROR: Missing packages. Run: pip install google-api-python-client google-auth python-dotenv")
     sys.exit(1)
 
-load_dotenv()
+REPO_ROOT = Path(__file__).resolve().parent.parent
+load_dotenv(REPO_ROOT / ".env")
 
 SERVICE_ACCOUNT_PATH = os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON_PATH")
 ROOT_FOLDER_ID       = os.getenv("GOOGLE_DRIVE_ROOT_FOLDER_ID")

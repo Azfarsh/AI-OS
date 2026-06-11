@@ -6,20 +6,14 @@
 
 | # | Service | Key | Mechanism | Auth | Status | Last Checked |
 |---|---|---|---|---|---|---|
-| 1 | Contract Generator | `contract-generator` | python-pptx script | Template PPTX in `references/assets/` | `not connected` | — |
-| 2 | Google Drive | `google-drive` | `scripts/gdrive_create_folder.py` | `GOOGLE_SERVICE_ACCOUNT_JSON_PATH` in .env | `not connected` | — |
-| 3 | ClickUp | `clickup` | `scripts/clickup_create_project.py` | `CLICKUP_API_TOKEN` in .env | `not connected` | — |
-| 4 | SMTP Email | `smtp` | `scripts/send_email.py` | `SMTP_USER` + `SMTP_PASSWORD` in .env (Gmail App Password) | `not connected` | — |
+| 1 | Contract Generator | `contract-generator` | python-pptx script | Template PPTX in `references/assets/` | `connected` | 2026-06-12 |
+| 2 | Google Drive | `google-drive` | `scripts/gdrive_create_folder.py` | `GOOGLE_SERVICE_ACCOUNT_JSON_PATH` in .env | `connected` | 2026-06-12 |
+| 3 | ClickUp | `clickup` | `scripts/clickup_create_project.py` | `CLICKUP_API_TOKEN` in .env | `connected` | 2026-06-12 |
+| 4 | SMTP Email | `smtp` | `scripts/send_email.py` | `SMTP_USER` + `SMTP_PASSWORD` in .env (Gmail App Password) | `connected` | 2026-06-12 |
 | 5 | Meta Ads | `meta-ads` | `scripts/meta_ads_pull.py` | `META_ACCESS_TOKEN` in .env | `not connected` | — |
 | 6 | Google Ads | `google-ads` | `scripts/google_ads_pull.py` | `GOOGLE_ADS_REFRESH_TOKEN` in .env | `not connected` | — |
 
 ---
-
-<<<<<<< Updated upstream
-## Setup Guide (Demo — All Free)
-=======
-When wiring a tool: set Mechanism to `script`, fill Last checked (YYYY-MM-DD), ensure `references/{tool}-api.md` exists, copy `.env.example` keys into `.env`. Full key guide: `references/env-api-keys.md`. Claude Code LLM auth: OpenRouter (`ANTHROPIC_AUTH_TOKEN` + `ANTHROPIC_BASE_URL`) or direct Anthropic (`ANTHROPIC_API_KEY`) — see `references/claude-code-api.md`.
->>>>>>> Stashed changes
 
 ### 1. Contract Generator
 ```
