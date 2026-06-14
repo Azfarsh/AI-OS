@@ -61,6 +61,14 @@ REQUIRED_SCRIPTS = [
     "scripts/voice_agent.py",
     "scripts/setup_elevenlabs_agent.py",
     "scripts/workflow_tools.py",
+    "scripts/jarvis.py",
+    "scripts/jarvis_boot.py",
+    "scripts/jarvis_server.py",
+    "web/jarvis/index.html",
+    "web/jarvis/style.css",
+    "web/jarvis/app.js",
+    "VOICE_TESTING_GUIDE.md",
+    "MARKETING_VIDEO_GUIDE.md",
 ]
 
 DEMO_PATHS = [
@@ -84,8 +92,8 @@ def main() -> None:
         sys.exit(1)
 
     print("OK — Agency OS structure valid (no API checks).")
-    print(f"  Skills: 8 | Scripts: 16 | Demo client: clients/demo-corp/")
-    print(f"  Voice setup: VOICE_SETUP.md")
+    print(f"  Skills: 8 | Scripts: 19 | Demo client: clients/demo-corp/")
+    print(f"  Voice: python scripts/jarvis.py  |  Guide: VOICE_TESTING_GUIDE.md")
     sys.exit(0)
 
 

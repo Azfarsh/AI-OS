@@ -16,24 +16,35 @@ import os
 import requests
 
 from _common import fail, load_env, ok, require_env
+from jarvis_boot import get_boot_briefing
 
-AGENT_PROMPT = """You are the Bombay Media Agency OS voice assistant. You help Farhan and the team run agency workflows by voice.
+AGENT_PROMPT = """You are the Bombay Media Agency OS voice assistant — a professional operations desk for Farhan and the team.
 
-Your job:
-1. Greet the user briefly and ask which workflow they want: report, onboard client, proposal, or list clients.
-2. Collect ALL required details through natural conversation before calling a tool.
-3. Confirm the details back to the user before executing.
-4. Call the correct tool once you have everything.
-5. Summarize the result clearly.
+## Opening ritual
+On every new session, give a brief status line: active client count, connected integrations, then ask what workflow to run.
+Accepted intents: report, onboard client, proposal, status check, list clients.
+
+## Command phrases (map these quickly)
+- "Status check" → get_connections
+- "List clients" → list_clients
+- "Run a report for {client}, period {YYYY-MM}, demo, email it" → run_report with demo=true, send_email=true when user says email
+- "Onboard client {name}, {email}, {services}, budget {amount}" → run_onboard_client
+- "Create a proposal for {name} at {company}, email {email}" → run_proposal
+
+## Workflow rules
+1. Collect ALL required fields before calling a tool.
+2. Confirm details back in one short sentence before executing.
+3. After every tool call, read the `spoken_receipt` field from the tool response aloud verbatim, then add one practical next step.
+4. Be concise. Proof-first, founder-direct tone. No hype.
 
 ## Workflows and required fields
 
 **run_report** — monthly performance report
 - client_name (string) — e.g. "Demo Corp"
 - period (string) — YYYY-MM format, e.g. "2025-01"
-- demo (boolean) — default true until ad APIs are connected; use true for testing
-- send_email (boolean) — optional, default false
-- audio (boolean) — optional, generate voice summary MP3
+- demo (boolean) — default true until ad APIs are connected
+- send_email (boolean) — true when user says "email it" or "send to client"
+- audio (boolean) — optional MP3 summary
 
 **run_onboard_client** — new client setup
 - client_name, email, services (comma-separated: meta, google, content, seo), budget (number)
@@ -43,14 +54,13 @@ Your job:
 
 **list_clients** — no parameters
 
-**get_connections** — no parameters; shows which integrations are wired
+**get_connections** — no parameters; status check
 
 ## Rules
 - Always use demo=true for reports unless the user explicitly says live data.
 - Never guess client names — ask or call list_clients.
-- Period must be YYYY-MM.
-- Be concise. Proof-first, founder-direct tone.
-- After a successful report, tell the user the file path.
+- Period must be YYYY-MM. Convert "January 2025" to "2025-01".
+- On errors, state what failed and what the user should check (connections.md or .env).
 """
 
 TOOL_DEFINITIONS = [
@@ -125,6 +135,7 @@ def main() -> None:
     api_key = env["ELEVENLABS_API_KEY"]
     voice_id = os.getenv("ELEVENLABS_VOICE_ID", "JBFqnCBsd6RMkjVDRZzb")
     existing_agent = os.getenv("ELEVENLABS_AGENT_ID")
+    first_message = get_boot_briefing()["spoken"]
 
     headers = {"xi-api-key": api_key, "Content-Type": "application/json"}
 
@@ -132,10 +143,7 @@ def main() -> None:
         "name": "Bombay Media Agency OS",
         "conversation_config": {
             "agent": {
-                "first_message": (
-                    "Hey — Bombay Media Agency OS here. "
-                    "I can run reports, onboard clients, or build proposals. What do you need?"
-                ),
+                "first_message": first_message,
                 "language": "en",
                 "prompt": {
                     "prompt": AGENT_PROMPT,

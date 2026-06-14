@@ -109,13 +109,16 @@ DO steps 1–3, 8–9: folders, client-brief.md, contract markdown from template
 
 **Prep (once):** Fixture JSON is in `clients/demo-corp/fixtures/`.
 
-**CLI (fastest):**
+**CLI (full demo with email):**
 
 ```powershell
-python scripts/report_workflow.py --client-name "Demo Corp" --period 2025-01 --demo
+python scripts/report_workflow.py --client-name "Demo Corp" --period 2025-01 --demo --send-email
 ```
 
-**Paste into Cursor Agent:**
+Requires `.env` with `SMTP_USER` + `SMTP_PASSWORD` (Gmail App Password) and `smtp` = `connected` in `connections.md`.  
+Demo Corp brief sends to **hannanchougle28@gmail.com**.
+
+**Paste into Cursor Agent (dry run — no email):**
 
 ```
 DRY RUN — Execute .claude/skills/report/SKILL.md:
