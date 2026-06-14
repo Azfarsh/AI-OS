@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bombay Media Agency OS</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="brand">
+        <div class="brand-mark"></div>
+        <div>
+          <h1>Bombay Media Agency OS</h1>
+          <p class="tagline">AI-Powered Performance Marketing</p>
+        </div>
+      </div>
+      <div class="header-meta">
+        <span id="status-date">Loading...</span>
+        <span class="pill" id="status-pill">Initializing</span>
+      </div>
+    </header>
+
+    <main class="grid">
+      <section class="panel voice-panel">
+        <div class="orb-wrap">
+          <button id="voice-btn" class="orb" aria-label="Start voice session">
+            <span class="orb-core"></span>
+            <span class="orb-ring"></span>
+          </button>
+          <p id="voice-state" class="voice-state">Tap to talk to Agency OS</p>
+        </div>
+        <div class="voice-actions">
+          <button id="stop-btn" class="btn btn-secondary" disabled>End Session</button>
+          <button id="refresh-btn" class="btn btn-ghost">Refresh Status</button>
+        </div>
+        <p id="briefing-text" class="briefing"></p>
+      </section>
+
+      <section class="panel stats-panel">
+        <h2>System Status</h2>
+        <div class="stats">
+          <div class="stat">
+            <span class="stat-value" id="client-count">0</span>
+            <span class="stat-label">Clients</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="connected-count">0</span>
+            <span class="stat-label">Connected</span>
+          </div>
+        </div>
+        <h3>Integrations</h3>
+        <ul id="connections-list" class="list"></ul>
+        <h3>Active Clients</h3>
+        <ul id="clients-list" class="list"></ul>
+      </section>
+
+      <section class="panel commands-panel">
+        <h2>Voice Commands</h2>
+        <p class="hint">Say these naturally, or click to copy.</p>
+        <ul id="commands-list" class="commands"></ul>
+      </section>
+
+      <section class="panel log-panel">
+        <h2>Activity Log</h2>
+        <div id="activity-log" class="log"></div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

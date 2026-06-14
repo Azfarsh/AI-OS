@@ -60,7 +60,23 @@ Do **not** edit generated `clients/{slug}/reports/report-*.md` by hand for templ
 
 6. **Clean up** — delete all `.tmp-*.json` in that reports folder.
 
-7. **Email (optional)** — if `--send-email`, `python scripts/send_email.py --template report ...` to email from brief with report MD attached.
+7. **Email (optional)** — if `--send-email`:
+   - Read client email from `clients/{slug}/client-brief.md` (Primary contact line).
+   - Require `smtp` = `connected` in `connections.md` and SMTP vars in `.env`.
+   - Run:
+     ```
+     python scripts/send_email.py \
+       --to "{email from brief}" \
+       --subject "Bombay Media × {Client Name} — Performance Report — {period}" \
+       --template report \
+       --client-name "{Client Name}" \
+       --company "{Client Name}" \
+       --period "{period}" \
+       --attachment "clients/{slug}/reports/report-{period}.pptx" \
+       --attachment "clients/{slug}/reports/report-{period}.md"
+     ```
+   - If `--audio` was used and MP3 exists, attach `report-{period}.mp3` as a third file.
+   - Halt on send failure; do not mark workflow complete.
 
 8. **Log** — append to `decisions/log.md`.
 

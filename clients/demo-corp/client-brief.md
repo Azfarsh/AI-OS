@@ -2,7 +2,7 @@
 
 **Status:** demo / dry-run only (no live APIs)
 
-**Primary contact:** jane@demo-corp.example  
+**Primary contact:** hannanchougle28@gmail.com  
 **Services:** meta, google  
 **Monthly budget:** $8,000  
 **Onboarded:** 2025-01-15

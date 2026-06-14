@@ -16,32 +16,48 @@ def _run_capture(cmd: list[str]) -> tuple[int, str]:
     return result.returncode, output.strip()
 
 
+def _tool_result(**payload: object) -> dict:
+    return payload  # type: ignore[return-value]
+
+
 def list_clients(_params: dict) -> dict:
     path = REPO_ROOT / "context" / "clients.md"
     if not path.exists():
-        return {"status": "error", "message": "context/clients.md not found"}
+        return _tool_result(status="error", message="context/clients.md not found", spoken_receipt="Client registry not found.")
     lines = [
         line.strip()
         for line in path.read_text(encoding="utf-8").splitlines()
         if line.startswith("|") and "Slug" not in line and "---" not in line
     ]
-    return {"status": "ok", "clients": lines}
+    count = len(lines)
+    return _tool_result(
+        status="ok",
+        clients=lines,
+        spoken_receipt=f"You have {count} client{'s' if count != 1 else ''} in the registry.",
+    )
 
 
 def get_connections(_params: dict) -> dict:
     path = REPO_ROOT / "connections.md"
     rows = []
+    connected = 0
     for line in path.read_text(encoding="utf-8").splitlines():
         if line.startswith("|") and "`" in line:
             rows.append(line.strip())
-    return {"status": "ok", "connections": rows}
+            if "`connected`" in line:
+                connected += 1
+    return _tool_result(
+        status="ok",
+        connections=rows,
+        spoken_receipt=f"{connected} integration{'s' if connected != 1 else ''} connected and ready.",
+    )
 
 
 def run_report(params: dict) -> dict:
     client_name = params.get("client_name") or params.get("client")
     period = params.get("period")
     if not client_name or not period:
-        return {"status": "error", "message": "Need client_name and period (YYYY-MM)"}
+        return _tool_result(status="error", message="Need client_name and period (YYYY-MM)", spoken_receipt="I need a client name and period in YYYY-MM format.")
 
     cmd = [
         sys.executable,
@@ -58,17 +74,24 @@ def run_report(params: dict) -> dict:
     if params.get("audio"):
         cmd.append("--audio")
 
+    send_email = bool(params.get("send_email"))
     code, output = _run_capture(cmd)
     if code != 0:
-        return {"status": "error", "message": output}
+        return _tool_result(status="error", message=output, spoken_receipt="Report failed. Check the logs and try again.")
     md_match = re.search(r"REPORT_COMPLETE=(.+?)(?:\|REPORT_PPTX=|$)", output)
     pptx_match = re.search(r"REPORT_PPTX=(.+)", output)
-    return {
-        "status": "ok",
-        "message": f"Report generated for {client_name}, period {period}.",
-        "report_path": md_match.group(1).strip() if md_match else output,
-        "report_pptx_path": pptx_match.group(1).strip() if pptx_match else None,
-    }
+    receipt = f"Report complete for {client_name}, period {period}. Branded PPTX is ready."
+    if send_email:
+        receipt += " Email sent to the client."
+    if params.get("audio"):
+        receipt += " Audio summary generated."
+    return _tool_result(
+        status="ok",
+        message=f"Report generated for {client_name}, period {period}.",
+        report_path=md_match.group(1).strip() if md_match else output,
+        report_pptx_path=pptx_match.group(1).strip() if pptx_match else None,
+        spoken_receipt=receipt,
+    )
 
 
 def run_onboard_client(params: dict) -> dict:
@@ -139,15 +162,24 @@ def run_onboard_client(params: dict) -> dict:
     ]
     code, output = _run_capture(contract_cmd)
     if code != 0:
-        return {"status": "error", "message": f"Contract generation failed: {output}", "slug": slug}
+        return _tool_result(
+            status="error",
+            message=f"Contract generation failed: {output}",
+            slug=slug,
+            spoken_receipt=f"Onboarding failed for {params['client_name']}. Contract step did not complete.",
+        )
 
     contract_match = re.search(r"CONTRACT_PATH:(.+)", output)
-    return {
-        "status": "ok",
-        "message": f"Client {params['client_name']} ready at clients/{slug}/",
-        "slug": slug,
-        "contract_path": contract_match.group(1).strip() if contract_match else None,
-    }
+    name = params["client_name"]
+    return _tool_result(
+        status="ok",
+        message=f"Client {name} ready at clients/{slug}/",
+        slug=slug,
+        contract_path=contract_match.group(1).strip() if contract_match else None,
+        spoken_receipt=(
+            f"Onboarding complete for {name}. Client folder, brief, registry entry, and contract PPTX are ready."
+        ),
+    )
 
 
 def run_proposal(params: dict) -> dict:
@@ -178,11 +210,27 @@ def run_proposal(params: dict) -> dict:
         cmd.extend(["--pain-points", str(params["pain_points"])])
     code, output = _run_capture(cmd)
     if code != 0:
-        return {"status": "error", "message": output}
+        return _tool_result(status="error", message=output, spoken_receipt=f"Proposal failed for {company}.")
     proposal_match = re.search(r"PROPOSAL_PATH:(.+)", output)
-    return {
-        "status": "ok",
-        "message": f"Proposal generated for {company}.",
-        "proposal_path": proposal_match.group(1).strip() if proposal_match else None,
-        "output": output,
-    }
+    return _tool_result(
+        status="ok",
+        message=f"Proposal generated for {company}.",
+        proposal_path=proposal_match.group(1).strip() if proposal_match else None,
+        output=output,
+        spoken_receipt=f"Proposal ready for {company}. Branded PPTX saved to the client folder.",
+    )
+
+
+TOOL_REGISTRY = {
+    "run_report": run_report,
+    "run_onboard_client": run_onboard_client,
+    "run_proposal": run_proposal,
+    "list_clients": list_clients,
+    "get_connections": get_connections,
+}
+
+
+def execute_tool(name: str, params: dict | None = None) -> dict:
+    if name not in TOOL_REGISTRY:
+        return _tool_result(status="error", message=f"Unknown tool: {name}", spoken_receipt="That workflow is not available.")
+    return TOOL_REGISTRY[name](params or {})

@@ -212,26 +212,32 @@ def main() -> None:
         email_match = re.search(r"[\w.+-]+@[\w-]+\.[\w.-]+", brief)
         if not email_match:
             fail("No client email found in client-brief.md")
-        _run(
-            [
-                sys.executable,
-                "scripts/send_email.py",
-                "--to",
-                email_match.group(0),
-                "--subject",
-                f"Performance Report — {args.client_name} — {args.period}",
-                "--template",
-                "report",
-                "--client-name",
-                args.client_name,
-                "--company",
-                args.client_name,
-                "--period",
-                args.period,
-                "--attachment",
-                str(report_path),
-            ]
-        )
+        client_email = email_match.group(0)
+        email_cmd = [
+            sys.executable,
+            "scripts/send_email.py",
+            "--to",
+            client_email,
+            "--subject",
+            f"Bombay Media × {args.client_name} — Performance Report — {args.period}",
+            "--template",
+            "report",
+            "--client-name",
+            args.client_name,
+            "--company",
+            args.client_name,
+            "--period",
+            args.period,
+            "--attachment",
+            str(report_pptx_path),
+            "--attachment",
+            str(report_path),
+        ]
+        audio_path = reports_dir / f"report-{args.period}.mp3"
+        if audio_path.exists():
+            email_cmd.extend(["--attachment", str(audio_path)])
+        _run(email_cmd)
+        print(f"  OK Report emailed to {client_email}")
 
     _cleanup_tmp(reports_dir)
     _append_log(args.client_name, args.period, slug, platforms_used, report_path)

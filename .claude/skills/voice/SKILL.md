@@ -8,7 +8,12 @@
 
 Or run directly:
 ```
-python scripts/voice_agent.py
+python scripts/jarvis.py
+```
+
+CLI mic fallback:
+```
+python scripts/jarvis.py --cli
 ```
 
 ## Pre-flight
@@ -19,35 +24,40 @@ python scripts/voice_agent.py
 
 ## What it does
 
-Starts an ElevenLabs Conversational AI session. You **speak**; the agent asks for missing details, then runs Agency OS workflows via client tools:
+Launches the **Jarvis dashboard** at http://127.0.0.1:8765 with browser voice (cross-platform).  
+Optional `--cli` mode uses terminal mic via `voice_agent.py`.
 
 | Voice intent | Tool | Required details |
 |--------------|------|------------------|
-| Performance report | `run_report` | client name, period (YYYY-MM), demo yes/no |
+| Status check | `get_connections` | — |
+| List clients | `list_clients` | — |
+| Performance report | `run_report` | client name, period (YYYY-MM), demo yes/no, email yes/no |
 | New client | `run_onboard_client` | name, email, services, budget |
 | Proposal | `run_proposal` | contact name, company, email |
-| List clients | `list_clients` | — |
-| Check integrations | `get_connections` | — |
 
 ## Steps
 
 1. Verify `elevenlabs` is `connected` in `connections.md`.
-2. Run `python scripts/voice_agent.py`.
-3. Say the workflow you want (e.g. "Run a report for Demo Corp for January 2025").
-4. Answer follow-up questions until the agent confirms and executes.
-5. Agent calls `scripts/report_workflow.py`, `generate_contract.py`, or `generate_proposal.py` as needed.
-6. Summarize result to user; append to `decisions/log.md` if a workflow ran.
+2. Run `python scripts/jarvis.py`.
+3. Click the orb → allow microphone.
+4. Say the workflow (see `VOICE_TESTING_GUIDE.md` for exact phrases).
+5. Confirm when the agent asks.
+6. Agent calls local tools via `workflow_tools.py`.
+7. Read `spoken_receipt` from tool result aloud; append to `decisions/log.md` if needed.
 
 ## Text-only check (no microphone)
 
 ```
+python scripts/voice_agent.py --test-all-workflows
 python scripts/voice_agent.py --text-only
 ```
 
 ## Connections required
 
-`elevenlabs` (required). Other connections depend on the workflow invoked (e.g. `smtp` for report email).
+`elevenlabs` (required). Other connections depend on workflow (`smtp` for report email, etc.).
 
-## Setup guide
+## Setup guides
 
-Full instructions: **`VOICE_SETUP.md`**
+- **`VOICE_SETUP.md`** — install and launch
+- **`VOICE_TESTING_GUIDE.md`** — test all 3 workflows
+- **`MARKETING_VIDEO_GUIDE.md`** — film the marketing demo

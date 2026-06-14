@@ -13,6 +13,17 @@ Usage — onboarding:
         --clickup-url "https://app.clickup.com/..." \\
         --contract-path "clients/acme/contracts/contract-2025-06-01.pptx"
 
+Usage — report:
+    python scripts/send_email.py \\
+        --to "client@example.com" \\
+        --subject "Bombay Media × Acme — Performance Report — 2025-01" \\
+        --template report \\
+        --client-name "Jane Doe" \\
+        --company "Acme" \\
+        --period "2025-01" \\
+        --attachment "clients/acme/reports/report-2025-01.pptx" \\
+        --attachment "clients/acme/reports/report-2025-01.md"
+
 Usage — proposal:
     python scripts/send_email.py \\
         --to "prospect@example.com" \\
@@ -152,13 +163,13 @@ def attach_file(msg: MIMEMultipart, file_path: str, label: str) -> None:
     if not path.is_absolute():
         path = REPO_ROOT / path
     if not path.exists():
-        print(f"  ⚠ Attachment not found: {path}")
+        print(f"  WARN: Attachment not found: {path}")
         return
     with open(path, "rb") as f:
         part = MIMEApplication(f.read(), Name=path.name)
     part["Content-Disposition"] = f'attachment; filename="{path.name}"'
     msg.attach(part)
-    print(f"  ✓ Attached: {path.name} ({label})")
+    print(f"  OK Attached: {path.name} ({label})")
 
 
 def send(msg: MIMEMultipart, to: str) -> None:
@@ -179,7 +190,7 @@ def send(msg: MIMEMultipart, to: str) -> None:
     except Exception as exc:
         fail(f"Failed to send email: {exc}")
 
-    print(f"✓ Email sent to {to}")
+    print(f"OK Email sent to {to}")
     print(f"EMAIL_SENT:{to}")
 
 
@@ -199,7 +210,12 @@ def main() -> None:
     parser.add_argument("--drive-url", default="[Drive link pending]")
     parser.add_argument("--clickup-url", default="[ClickUp link pending]")
     parser.add_argument("--contract-path", default=None)
-    parser.add_argument("--attachment", default=None, help="Proposal PPTX or report MD attachment")
+    parser.add_argument(
+        "--attachment",
+        action="append",
+        default=[],
+        help="Attachment path(s): proposal PPTX, report PPTX/MD/MP3 (repeat flag for multiple)",
+    )
     parser.add_argument("--period", default="", help="Report period (YYYY-MM) for report template")
     parser.add_argument("--body-file", default=None, help="Optional proposal body markdown")
     parser.add_argument("--body", default=None, help="Custom body (--template custom)")
@@ -220,7 +236,7 @@ def main() -> None:
         )
     elif args.template == "report":
         if not args.client_name or not args.attachment:
-            fail("Report email requires --client-name and --attachment")
+            fail("Report email requires --client-name and at least one --attachment")
         first_name = args.client_name.split()[0] if args.client_name else "there"
         company = args.company or args.client_name
         body = REPORT_TEMPLATE.format(
@@ -241,8 +257,9 @@ def main() -> None:
 
     if args.contract_path:
         attach_file(msg, args.contract_path, "contract")
-    if args.attachment:
-        attach_file(msg, args.attachment, "proposal")
+    attachment_label = "report" if args.template == "report" else "attachment"
+    for path in args.attachment:
+        attach_file(msg, path, attachment_label)
 
     send(msg, args.to)
 
