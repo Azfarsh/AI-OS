@@ -134,7 +134,7 @@ def fill_contract(args) -> Path:
     pdf_path = contract_dir / f"contract-{date_tag}.pdf"
 
     prs.save(str(pptx_path))
-    print(f"✓ Contract PPTX saved: {pptx_path}")
+    print(f"OK Contract PPTX saved: {pptx_path}")
 
     # ── Convert to PDF (requires LibreOffice) ──────────────────────
     try:
@@ -146,15 +146,15 @@ def fill_contract(args) -> Path:
         if result.returncode == 0:
             # soffice names the PDF after the pptx filename
             generated_pdf = contract_dir / f"contract-{date_tag}.pdf"
-            print(f"✓ Contract PDF saved: {generated_pdf}")
+            print(f"OK Contract PDF saved: {generated_pdf}")
             return generated_pdf
         else:
-            print(f"⚠ PDF conversion failed: {result.stderr}")
-            print(f"  → PPTX available at: {pptx_path}")
+            print(f"WARN PDF conversion failed: {result.stderr}")
+            print(f"  -> PPTX available at: {pptx_path}")
             return pptx_path
     except (FileNotFoundError, subprocess.TimeoutExpired):
-        print("⚠ LibreOffice not found — PDF conversion skipped.")
-        print(f"  → PPTX available at: {pptx_path}")
+        print("WARN LibreOffice not found - PDF conversion skipped.")
+        print(f"  -> PPTX available at: {pptx_path}")
         return pptx_path
 
 

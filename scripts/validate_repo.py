@@ -20,6 +20,7 @@ REQUIRED_PATHS = [
     "references/3ms-framework.md",
     "references/onboarding-sop.md",
     "references/report-template.md",
+    "references/Bombay_Media_Dummy_Report.pptx",
     "references/proposal-template.md",
     "references/connections-guide.md",
     "references/clickup-api.md",
@@ -27,6 +28,7 @@ REQUIRED_PATHS = [
     "references/docuseal-api.md",
     "references/meta-ads-api.md",
     "references/google-ads-api.md",
+    "references/elevenlabs-api.md",
     "templates/contract-template.md",
     "templates/report-template.md",
     "templates/proposal-template.md",
@@ -37,6 +39,8 @@ REQUIRED_PATHS = [
     ".claude/skills/report/SKILL.md",
     ".claude/skills/proposal/SKILL.md",
     ".claude/skills/agency-audit/SKILL.md",
+    ".claude/skills/voice/SKILL.md",
+    "VOICE_SETUP.md",
 ]
 
 REQUIRED_SCRIPTS = [
@@ -49,6 +53,14 @@ REQUIRED_SCRIPTS = [
     "scripts/send_email.py",
     "scripts/enrich_company.py",
     "scripts/validate_repo.py",
+    "scripts/synthesize_report.py",
+    "scripts/report_workflow.py",
+    "scripts/report_pull_demo.py",
+    "scripts/generate_report_pptx.py",
+    "scripts/elevenlabs_tts.py",
+    "scripts/voice_agent.py",
+    "scripts/setup_elevenlabs_agent.py",
+    "scripts/workflow_tools.py",
 ]
 
 DEMO_PATHS = [
@@ -72,7 +84,8 @@ def main() -> None:
         sys.exit(1)
 
     print("OK — Agency OS structure valid (no API checks).")
-    print(f"  Skills: 7 | Scripts: 8 | Demo client: clients/demo-corp/")
+    print(f"  Skills: 8 | Scripts: 16 | Demo client: clients/demo-corp/")
+    print(f"  Voice setup: VOICE_SETUP.md")
     sys.exit(0)
 
 

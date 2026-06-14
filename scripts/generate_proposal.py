@@ -438,7 +438,7 @@ def main():
     out_path = out_dir / f"proposal-{date_tag}.pptx"
     prs.save(str(out_path))
 
-    print(f"✓ Proposal PPTX saved: {out_path}")
+    print(f"OK Proposal PPTX saved: {out_path}")
     print(f"PROPOSAL_PATH:{out_path}")
 
 

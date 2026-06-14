@@ -184,8 +184,24 @@ After filling these, generate `scripts/.google-ads.yaml` per `references/google-
 |----------|---------|
 | `AGENCY_NAME` | Display name in Drive paths, contracts, reports, email subjects |
 | `AGENCY_EMAIL` | Primary agency contact email for templates and client comms |
+| `ELEVENLABS_API_KEY` | ElevenLabs | `scripts/voice_agent.py`, `scripts/elevenlabs_tts.py` |
+| `ELEVENLABS_VOICE_ID` | ElevenLabs | TTS voice selection |
+| `ELEVENLABS_AGENT_ID` | ElevenLabs | Conversational AI agent (from `setup_elevenlabs_agent.py`) |
 
 Not secret — but kept in `.env` so scripts and skills share one source of truth with integrations.
+
+---
+
+## ElevenLabs
+
+| Variable | Purpose |
+|----------|---------|
+| `ELEVENLABS_API_KEY` | API key from elevenlabs.io |
+| `ELEVENLABS_VOICE_ID` | Voice for TTS (default: George) |
+| `ELEVENLABS_AGENT_ID` | ConvAI agent id from setup script |
+
+**Scripts:** `scripts/voice_agent.py`, `scripts/elevenlabs_tts.py`, `scripts/setup_elevenlabs_agent.py`  
+**Detail:** `references/elevenlabs-api.md`, **`VOICE_SETUP.md`**
 
 ---
 

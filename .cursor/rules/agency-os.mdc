@@ -27,6 +27,7 @@ This repo is a **CLI + Markdown Agency OS**. There is no `ais_os` app server.
 | report, performance report | `.claude/skills/report/SKILL.md` |
 | proposal | `.claude/skills/proposal/SKILL.md` |
 | level up, automate | `.claude/skills/level-up/SKILL.md` |
+| voice, talk, speak | `.claude/skills/voice/SKILL.md` |
 
 ## Demo data
 

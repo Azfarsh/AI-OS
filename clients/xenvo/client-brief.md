@@ -3,7 +3,7 @@
 ## Identity
 - **Company:** Xenvo
 - **Slug:** xenvo
-- **Primary Email:** hannanchougle28@gmail.com
+- **Primary Email:** azfarshaikh7860@gmail.com
 - **Services:** meta,content
 - **Monthly Budget:** $5000
 - **Onboarded:** 2026-06-12

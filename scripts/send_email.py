@@ -107,6 +107,25 @@ farhan@bombay-media.com
 bmmediagrowth.com | Dubai · Mumbai
 """
 
+REPORT_TEMPLATE = """Hi {first_name},
+
+Your {period} performance report for {company} is attached.
+
+Highlights at a glance:
+→  Platform breakdown (Meta, Google Ads)
+→  Key insights and recommendations for next period
+→  Next steps with owners and dates
+
+We guarantee 3× ROAS in 90 days. If we don't hit it, we work for free until we do.
+
+Reply to this email if you want a walkthrough call.
+
+Farhan Rakhangi
+Co-Founder, Bombay Media FZE
+farhan@bombay-media.com
+bmmediagrowth.com | Dubai · Mumbai
+"""
+
 
 def fail(message: str) -> None:
     print(f"ERROR: {message}", file=sys.stderr)
@@ -171,8 +190,8 @@ def main() -> None:
     parser.add_argument(
         "--template",
         default=None,
-        choices=["onboarding", "contract-followup", "custom"],
-        help="Onboarding template (omit for proposal mode)",
+        choices=["onboarding", "contract-followup", "custom", "report"],
+        help="Email template (omit for proposal mode)",
     )
     parser.add_argument("--client-name", default="")
     parser.add_argument("--client-contact", default="there")
@@ -180,7 +199,8 @@ def main() -> None:
     parser.add_argument("--drive-url", default="[Drive link pending]")
     parser.add_argument("--clickup-url", default="[ClickUp link pending]")
     parser.add_argument("--contract-path", default=None)
-    parser.add_argument("--attachment", default=None, help="Proposal PPTX attachment")
+    parser.add_argument("--attachment", default=None, help="Proposal PPTX or report MD attachment")
+    parser.add_argument("--period", default="", help="Report period (YYYY-MM) for report template")
     parser.add_argument("--body-file", default=None, help="Optional proposal body markdown")
     parser.add_argument("--body", default=None, help="Custom body (--template custom)")
     args = parser.parse_args()
@@ -197,6 +217,16 @@ def main() -> None:
             agency_name=AGENCY_NAME,
             drive_url=args.drive_url,
             clickup_url=args.clickup_url,
+        )
+    elif args.template == "report":
+        if not args.client_name or not args.attachment:
+            fail("Report email requires --client-name and --attachment")
+        first_name = args.client_name.split()[0] if args.client_name else "there"
+        company = args.company or args.client_name
+        body = REPORT_TEMPLATE.format(
+            first_name=first_name,
+            company=company,
+            period=args.period or "this month",
         )
     elif args.template == "custom":
         body = args.body or "No body provided."

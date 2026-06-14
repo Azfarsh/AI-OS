@@ -23,6 +23,7 @@
 | Skill | Required connection ids |
 |-------|-------------------------|
 | `/onboard-client` | `clickup`, `google-drive`, `docuseal`, `smtp` |
-| `/report` | `meta-ads` and/or `google-ads` per client; `smtp` if `--send-email` |
+| `/report` | `meta-ads` and/or `google-ads` per client (or `--demo`); `smtp` if `--send-email`; `elevenlabs` if `--audio` |
 | `/proposal` | `smtp` |
+| `/voice` | `elevenlabs` |
 | `/agency-audit` | none |

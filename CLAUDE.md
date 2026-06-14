@@ -37,6 +37,7 @@ Read `references/3ms-framework.md` for Mindset, Method, Machine. Use with `/leve
 - `/report` — monthly performance report from Meta / Google Ads data
 - `/proposal` — proposal from meeting notes + email to prospect
 - `/agency-audit` — agency Four-Cs scoreboard
+- `/voice` — ElevenLabs voice agent to run workflows by speech
 
 Full build contract: `AGENCY_OS_KICKSTART.md`
 

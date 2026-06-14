@@ -10,8 +10,9 @@
 | 2 | Google Drive | `google-drive` | `scripts/gdrive_create_folder.py` | `GOOGLE_SERVICE_ACCOUNT_JSON_PATH` in .env | `connected` | 2026-06-12 |
 | 3 | ClickUp | `clickup` | `scripts/clickup_create_project.py` | `CLICKUP_API_TOKEN` in .env | `connected` | 2026-06-12 |
 | 4 | SMTP Email | `smtp` | `scripts/send_email.py` | `SMTP_USER` + `SMTP_PASSWORD` in .env (Gmail App Password) | `connected` | 2026-06-12 |
-| 5 | Meta Ads | `meta-ads` | `scripts/meta_ads_pull.py` | `META_ACCESS_TOKEN` in .env | `not connected` | — |
-| 6 | Google Ads | `google-ads` | `scripts/google_ads_pull.py` | `GOOGLE_ADS_REFRESH_TOKEN` in .env | `not connected` | — |
+| 5 | Meta Ads | `meta-ads` | `scripts/meta_ads_pull.py` | `META_ACCESS_TOKEN` in .env | `demo-mock` | — |
+| 6 | Google Ads | `google-ads` | `scripts/google_ads_pull.py` | `GOOGLE_ADS_REFRESH_TOKEN` in .env | `demo-mock` | — |
+| 7 | ElevenLabs Voice | `elevenlabs` | `scripts/voice_agent.py`, `scripts/elevenlabs_tts.py` | `ELEVENLABS_API_KEY` in .env | `connected` | 2026-06-12 |
 
 ---
 
@@ -79,3 +80,18 @@ For production: see references/meta-ads-api.md
 For demo: set status → "demo-mock" and use fixture JSON in scripts/fixtures/
 For production: see references/google-ads-api.md
 ```
+
+### 7. ElevenLabs Voice (Conversational AI + TTS)
+```
+1. Sign up at elevenlabs.io → Profile → API Keys → Create key
+2. Set in .env:
+   ELEVENLABS_API_KEY=sk_...
+   ELEVENLABS_VOICE_ID=JBFqnCBsd6RMkjVDRZzb   (or your cloned voice ID)
+3. pip install elevenlabs pyaudio
+4. python scripts/setup_elevenlabs_agent.py
+5. Copy printed ELEVENLABS_AGENT_ID into .env
+6. Update status → "connected"
+7. Run: python scripts/voice_agent.py
+```
+**Full guide:** `VOICE_SETUP.md`  
+**Cost:** ElevenLabs credits (free tier available)

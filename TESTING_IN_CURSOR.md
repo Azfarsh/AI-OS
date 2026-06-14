@@ -107,19 +107,25 @@ DO steps 1–3, 8–9: folders, client-brief.md, contract markdown from template
 
 ## 6. Report — **synthesis with dummy metrics**
 
-**Prep (once):** Fixture JSON is in `clients/demo-corp/fixtures/`. Agent should copy into reports as `.tmp-*` or read fixtures directly.
+**Prep (once):** Fixture JSON is in `clients/demo-corp/fixtures/`.
 
-**Paste:**
+**CLI (fastest):**
+
+```powershell
+python scripts/report_workflow.py --client-name "Demo Corp" --period 2025-01 --demo
+```
+
+**Paste into Cursor Agent:**
 
 ```
 DRY RUN — Execute .claude/skills/report/SKILL.md:
-/report "Demo Corp" --period "2025-01"
+/report "Demo Corp" --period "2025-01" --demo
 
-- Resolve slug from context/clients.md (add Demo Corp row if missing).
+- Resolve slug from context/clients.md
 - Read clients/demo-corp/client-brief.md
-- Use metrics from clients/demo-corp/fixtures/meta-2025-01.json and google-2025-01.json (do NOT run meta_ads_pull.py or google_ads_pull.py)
-- Write clients/demo-corp/reports/report-2025-01.md using references/report-template.md
-- Delete any .tmp-*.json you created in reports/
+- Run: python scripts/report_pull_demo.py --client-slug demo-corp --period 2025-01
+- Run: python scripts/synthesize_report.py --client-name "Demo Corp" --client-slug demo-corp --period 2025-01
+- Or use one-shot: python scripts/report_workflow.py --client-name "Demo Corp" --period 2025-01 --demo
 - No --send-email
 - Append decisions/log.md
 ```
@@ -169,6 +175,19 @@ python scripts/enrich_company.py --company "Demo Corp" --website "https://exampl
 ```
 
 Other scripts will **exit 1** without `.env` — that is expected until you wire connections.
+
+---
+
+## 11. Voice agent — **ElevenLabs (optional)**
+
+Requires `.env` with `ELEVENLABS_API_KEY` and `ELEVENLABS_AGENT_ID`. See **`VOICE_SETUP.md`**.
+
+```powershell
+python scripts/setup_elevenlabs_agent.py   # once
+python scripts/voice_agent.py            # speak to run workflows
+```
+
+Say: *"Run a demo report for Demo Corp, period 2025-01."*
 
 ---
 

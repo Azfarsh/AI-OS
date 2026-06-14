@@ -45,3 +45,22 @@
 - Drive: https://drive.google.com/drive/folders/15mTm8Ghtri2cgsYf888VHcDqu-tkfyKE
 - Email: sent to hannanchougle28@gmail.com
 - Completed: 2026-06-12T01:19:00Z
+2026-06-12T16:11:10 | /report | Demo Corp 2025-01 | platforms: meta, google | path: clients/demo-corp/reports/report-2025-01.md
+2026-06-12T17:11:32 | /report | Demo Corp 2025-01 | platforms: meta, google | path: clients/demo-corp/reports/report-2025-01.md
+2026-06-12T17:12:17 | /report | Demo Corp 2025-01 | platforms: meta, google | path: clients/demo-corp/reports/report-2025-01.md
+2026-06-12T17:12:39 | /report | Demo Corp 2025-01 | platforms: meta, google | path: clients/demo-corp/reports/report-2025-01.md
+2026-06-12T17:19:43 | /report | Demo Corp 2025-01 | platforms: meta, google | path: clients/demo-corp/reports/report-2025-01.md
+2026-06-12T17:19:45 | /report | Demo Corp 2025-01 | platforms: meta, google | path: clients/demo-corp/reports/report-2025-01.md
+2026-06-12T17:21:25 | /report | Demo Corp 2025-01 | platforms: meta, google | path: clients/demo-corp/reports/report-2025-01.md
+2026-06-12T17:21:42 | /report | Demo Corp 2025-01 | platforms: meta, google | path: clients/demo-corp/reports/report-2025-01.md
+2026-06-12T17:21:53 | /report | Demo Corp 2025-01 | platforms: meta, google | path: clients/demo-corp/reports/report-2025-01.md
+2026-06-12T17:25:13 | /report | Demo Corp 2025-01 | platforms: meta, google | path: clients/demo-corp/reports/report-2025-01.md
+2026-06-12T17:25:20 | /report | Demo Corp 2025-01 | platforms: meta, google | path: clients/demo-corp/reports/report-2025-01.md
+2026-06-14T10:00:11 | /report | Xenvo 2025-01 | platforms: meta, google | path: clients/xenvo/reports/report-2025-01.md
+2026-06-14T11:12:54 | /report | Xenvo 2025-01 | platforms: meta, google | path: clients/xenvo/reports/report-2025-01.md
+2026-06-14 | /voice --test-xenvo | All 3 workflows OK (report, onboard+contract, proposal) | Charlie voice applied to agent | report_pull_demo fallback fix
+2026-06-14 | /report | PPTX report generator wired | template: references/Bombay_Media_Dummy_Report.pptx | output: clients/{slug}/reports/report-{period}.pptx
+2026-06-14T12:34:54 | /report | Demo Corp 2025-01 | platforms: meta, google | path: clients/demo-corp/reports/report-2025-01.md, report-2025-01.pptx
+2026-06-14T12:35:16 | /report | Xenvo 2025-01 | platforms: meta, google | path: clients/xenvo/reports/report-2025-01.md, report-2025-01.pptx
+2026-06-14T12:36:30 | /report | Demo Corp 2025-01 | platforms: meta, google | path: clients/demo-corp/reports/report-2025-01.md, report-2025-01.pptx
+2026-06-14T12:36:51 | /report | Xenvo 2025-01 | platforms: meta, google | path: clients/xenvo/reports/report-2025-01.md, report-2025-01.pptx
